@@ -7,3 +7,8 @@ this is for the web server:
 
 this is for the php composer:
 ```docker-compose up composer install```
+
+
+## Github Command Reminders:
+this is to create a new branch:
+```git checkout -b [branch-name]```
