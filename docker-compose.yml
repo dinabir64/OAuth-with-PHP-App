@@ -1,0 +1,22 @@
+version: '3'
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./app:/app
+        depends_on: 
+            - php
+    php:
+        image: php:fpm
+        volumes:
+            - ./app:/app
+        # depends_on: 
+        #     - composer
+    composer:
+        image: composer:1.9
+        command: ["composer", "install"]
+        volumes:
+            - ./app:/app
