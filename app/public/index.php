@@ -8,6 +8,11 @@ $login_button = '';
 //this $_GET["code"] is received after a user has login into their Google Account (from redirct to PHP script)
 if(isset($_GET["code"]))
 {
+    //either 1) state not in URL but code is, 2) no state set up in session, 3) state token doesn't match
+    if(!isset($_GET['state']) || !isset($_SESSION['state']) || $_GET['state'] != $_SESSION['state']){
+        header("Location: http://127.0.0.1/blocked.html"); 
+        exit();
+    }
     //attempt to exchange code for a valid authentication token.
     $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
 
@@ -39,9 +44,17 @@ if(isset($_GET["code"]))
     }
 }
 
+if(isset($_GET['state']) && $_GET['state'] != $_SESSION['state']){
+    header("Location: http://127.0.0.1/blocked.html"); 
+    exit();
+}
+
 //if a user isn't logged in then it will display Google Login link
 if(!isset($_SESSION['access_token'])) {
     //create a URL to obtain user authorization
+    $state = bin2hex(random_bytes(128/8));
+    $_SESSION['state'] = $state;
+    $google_client->setState($state);
     $auth_url = $google_client->createAuthUrl();
     $login_button = '<a href="'.filter_var($auth_url, FILTER_SANITIZE_URL).'"><img src="sign-in-with-google.jpg" /></a>';
 }
