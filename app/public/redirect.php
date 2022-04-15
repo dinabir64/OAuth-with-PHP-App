@@ -1,9 +1,12 @@
+// This page was my first implementation of an OAuth 2.0 client.
+// It does not have a logout functionality, nor does it use the authorization token for anything.
+
 <?php
 require_once '../vendor/autoload.php';
   
 // init configuration
-$clientID = '996169484802-2ppi40quk41umumotlbfdda66qkp2uqk.apps.googleusercontent.com';
-$clientSecret = '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';
+$clientID = '[client-id]';
+$clientSecret = '[client-secret]';
 $redirectUri = 'http://127.0.0.1/redirect.php';
    
 // create Client Request to access Google API

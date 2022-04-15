@@ -14,14 +14,13 @@ if(isset($_GET["code"]))
     //this condition checks if an error occured while geting authentication token
     if(!isset($token['error']))
     {
-        echo '<p>I am here!</p>';
         $google_client->setAccessToken($token['access_token']); //set the access token used for requests
         $_SESSION['access_token'] = $token['access_token']; //store "access_token" value in $_SESSION variable for future use.
 
         $google_service = new Google_Service_Oauth2($google_client);
         $data = $google_service->userinfo->get(); //get user profile data from google
 
-        //below you can find Get profile data and store into $_SESSION variable
+        //below you can get profile data and store it in $_SESSION variable
         if(!empty($data['given_name'])) {
             $_SESSION['user_first_name'] = $data['given_name'];
         }
@@ -43,7 +42,8 @@ if(isset($_GET["code"]))
 //if a user isn't logged in then it will display Google Login link
 if(!isset($_SESSION['access_token'])) {
     //create a URL to obtain user authorization
-    $login_button = '<a href="'.$google_client->createAuthUrl().'"><img src="sign-in-with-google.jpg" /></a>';
+    $auth_url = $google_client->createAuthUrl();
+    $login_button = '<a href="'.filter_var($auth_url, FILTER_SANITIZE_URL).'"><img src="sign-in-with-google.jpg" /></a>';
 }
 ?>
 
