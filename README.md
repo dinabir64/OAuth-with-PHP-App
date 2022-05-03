@@ -17,3 +17,7 @@ The following command runs PHP Composer through Docker and installs/updates pack
 ## Github Command Reminders:
 This command creates a new branch, so I can create a new feature without changing the main branch:
 ```git checkout -b [branch-name]```
+
+NOTE: In previous versions of this repository, there is a client secret, but that secret no longer works for this application. If this code to be used by another application, those sections should be populated with the client secret of the registered application.
+
+There are two branches of this repository: the main and the patch branch. The main branch is the application as I first implemented it without considering best practices for preventing vulnerabilities. The patch branch implements recommended preventatives to combat the CSRF attack vulnerability. It has an extra csrf_test with a state parameter in the request to show that the application is no longer vulnerable to the attack. 
